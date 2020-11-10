@@ -64,9 +64,6 @@ def cumulative_object_counting_x_axis(input_video, detection_graph, category_ind
                 (boxes, scores, classes, num) = sess.run(
                     [detection_boxes, detection_scores, detection_classes, num_detections],
                     feed_dict={image_tensor: image_np_expanded})
-                
-                if (num > 2):
-                    print('Exceeded limit of people')
 
                 # insert information text to video frame
                 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -108,7 +105,7 @@ def cumulative_object_counting_x_axis(input_video, detection_graph, category_ind
 
                 cv2.putText(
                     input_frame,
-                    'Currently detecting: ' + str(num[0]) + ' people',
+                    'Currently detecting: ' + str(int(num[0])) + ' people',
                     (10, 70),
                     font,
                     0.8,
@@ -117,17 +114,17 @@ def cumulative_object_counting_x_axis(input_video, detection_graph, category_ind
                     cv2.FONT_HERSHEY_SIMPLEX,
                     )
 
-
-                cv2.putText(
-                    input_frame,
-                    'ROI Line',
-                    (545, roi-10),
-                    font,
-                    0.6,
-                    (0, 0, 0xFF),
-                    2,
-                    cv2.LINE_AA,
-                    )
+                if num[0] > 2:
+                    cv2.putText(
+                        input_frame,
+                        'Exceeding maximum number of people',
+                        (width - 500, height - 20),
+                        font,
+                        0.8,
+                        (0, 0, 0xFF),
+                        2,
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        )
 
                 output_movie.write(input_frame)
                 print ("writing frame")
