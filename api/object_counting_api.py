@@ -13,6 +13,9 @@ from utils import visualization_utils as vis_util
 # Variables
 total_passed_vehicle = 0  # using it to count vehicles
 
+# Maximum customers allowed to enter at a time
+MAX_ENTRY_NUM = 2
+
 def cumulative_object_counting_x_axis(input_video, detection_graph, category_index, is_color_recognition_enabled, roi, deviation):
         total_passed_vehicle = 0              
 
@@ -114,7 +117,7 @@ def cumulative_object_counting_x_axis(input_video, detection_graph, category_ind
                     cv2.FONT_HERSHEY_SIMPLEX,
                     )
 
-                if num[0] > 2:
+                if num[0] > MAX_ENTRY_NUM:
                     cv2.putText(
                         input_frame,
                         'Exceeding maximum number of people',
