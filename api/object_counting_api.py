@@ -64,6 +64,9 @@ def cumulative_object_counting_x_axis(input_video, detection_graph, category_ind
                 (boxes, scores, classes, num) = sess.run(
                     [detection_boxes, detection_scores, detection_classes, num_detections],
                     feed_dict={image_tensor: image_np_expanded})
+                
+                if (num > 2):
+                    print('Exceeded limit of people')
 
                 # insert information text to video frame
                 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -96,6 +99,17 @@ def cumulative_object_counting_x_axis(input_video, detection_graph, category_ind
                     input_frame,
                     'Detected Pedestrians: ' + str(total_passed_vehicle),
                     (10, 35),
+                    font,
+                    0.8,
+                    (0, 0xFF, 0xFF),
+                    2,
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    )
+
+                cv2.putText(
+                    input_frame,
+                    'Currently detecting: ' + str(num[0]) + ' people',
+                    (10, 70),
                     font,
                     0.8,
                     (0, 0xFF, 0xFF),
